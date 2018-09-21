@@ -26,6 +26,7 @@ class Battle < Sinatra::Base
   post '/play' do
     $game.attack($game.player1)
     $game.turn_switcher
+    redirect '/game-over' if $game.winner?
     redirect '/play'
   end
 
@@ -33,6 +34,12 @@ class Battle < Sinatra::Base
     $game.attack($game.player2)
     $game.turn_switcher
     @game = $game
+    redirect '/game-over' if $game.winner?
     erb :attack
+  end
+
+  get '/game-over' do
+    @game = $game
+    erb :game_over
   end
 end

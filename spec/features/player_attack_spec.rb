@@ -1,6 +1,5 @@
 
 feature "attacking another player" do
-
   scenario "attacks a player" do
     sign_in_and_play
     click_button("Attack Player 2!")
@@ -22,6 +21,16 @@ feature "attacking another player" do
     expect(page).not_to have_content 'Jim: 50HP'
     expect(page).to have_content 'Jim: 30HP'
   end
+end
 
-
+feature 'Game is over' do
+  scenario 'you have attacked 5 times' do
+    sign_in_and_play
+    4.times do
+      click_button("Attack Player 2!")
+      click_button("Attack Player 1!")
+    end
+    click_button("Attack Player 2!")
+    expect(page).to have_content 'GAME OVER'
+  end
 end
