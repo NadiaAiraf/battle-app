@@ -2,10 +2,12 @@ require 'game'
 
 describe Game do
   let(:pokemon) { described_class.new(tom, andy) }
+  let(:tom) {double :player, reduce_hp: nil, hit_points: 20 }
+  let(:andy) { double :player2, reduce_hp: nil, hit_points: 20 }
 
-  let(:tom) {double :player, reduce_hp: nil }
-  let(:andy) { double :player2, reduce_hp: nil }
-  # let(:player1) { double :pikachu, reduce_hp: nil }
+  let(:digimon) { described_class.new(loser, winner)}
+  let(:loser) { double :player, hit_points: 0 }
+  let(:winner) { double :player, hit_points: 20 }
 
   describe 'player1' do
     it 'should return the player1 object' do
@@ -39,6 +41,21 @@ describe Game do
       pokemon.turn_switcher
       pokemon.turn_switcher
       expect(pokemon.turn).to eq tom
+    end
+  end
+
+  describe '#winner?' do
+    it 'returns true that a player has won if opponents HP 0 or lower' do
+      expect(digimon.winner?).to eq true
+    end
+    it 'returns false if no player has less than or equal to 0 HP' do
+      expect(pokemon.winner?).to eq false
+    end
+  end
+
+  describe '#winner' do
+    it 'returns player 2 if player 1s hp is 0 or less' do
+      expect(digimon.winner).to eq winner
     end
   end
 end
